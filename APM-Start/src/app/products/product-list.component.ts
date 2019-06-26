@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Product } from './product';
 import { ProductService } from './product.service';
+import { Alert } from 'selenium-webdriver';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -26,7 +27,8 @@ export class ProductListComponent implements OnInit {
   filteredProducts: Product[] = [];
   products: Product[] = [];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) { 
+  }
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe(
