@@ -1,28 +1,42 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
 import { MessageService } from '../../messages/message.service';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.css']
 })
-export class ProductEditComponent {
+export class ProductEditComponent implements OnInit{
   pageTitle = 'Product Edit';
   errorMessage: string;
 
-  product: Product;
+  product: Product; // product type is coming from "Product interface"
 
-  constructor(private productService: ProductService,
-              private messageService: MessageService) { }
+  constructor(
+    private productService: ProductService,
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private router:Router) { 
+}
+
+ngOnInit():void{
+  this.route.paramMap.subscribe(
+    function(params){
+      const id = +params.get('id');
+      this.getProduct(id);
+    }.bind(this)
+  )
+}
 
   getProduct(id: number): void {
     this.productService.getProduct(id)
       .subscribe(
-        (product: Product) => this.onProductRetrieved(product),
-        (error: any) => this.errorMessage = <any>error
+        function(product: Product){this.onProductRetrieved(product)}.bind(this),
+        function(error: any){this.errorMessage = <any>error}.bind(this)
       );
   }
 
@@ -31,7 +45,7 @@ export class ProductEditComponent {
 
     if (!this.product) {
       this.pageTitle = 'No product found';
-    } else {
+    } else { 
       if (this.product.id === 0) {
         this.pageTitle = 'Add Product';
       } else {
@@ -81,5 +95,6 @@ export class ProductEditComponent {
     }
 
     // Navigate back to the product list
+    this.router.navigate(['/products'])    
   }
 }
