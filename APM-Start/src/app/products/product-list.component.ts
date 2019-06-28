@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from './product';
 import { ProductService } from './product.service';
 import { Alert } from 'selenium-webdriver';
-
+import {ActivatedRoute} from '@angular/router';
 @Component({
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
@@ -27,10 +27,15 @@ export class ProductListComponent implements OnInit {
   filteredProducts: Product[] = [];
   products: Product[] = [];
 
-  constructor(private productService: ProductService) { 
+  constructor(private productService: ProductService,
+    private route:ActivatedRoute) { 
   }
 
   ngOnInit(): void {
+    // read query params values
+    this.listFilter = this.route.snapshot.queryParamMap.get('filterBy') || '';
+    this.showImage = this.route.snapshot.queryParamMap.get('showImage') === 'true';
+
     this.productService.getProducts().subscribe(
       products => {
         this.products = products;
