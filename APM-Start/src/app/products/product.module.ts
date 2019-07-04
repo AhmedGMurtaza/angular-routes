@@ -11,7 +11,11 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path:'products',component:ProductListComponent },
+      { 
+        path:'products',
+        component:ProductListComponent,
+        data:{dataTitle:'This is static data passed as params, and will remain as it is throught app life!'}
+     },
       { path:'products/:id', component:ProductDetailComponent},
       { path:'products/:id/edit', component:ProductEditComponent }
     ])

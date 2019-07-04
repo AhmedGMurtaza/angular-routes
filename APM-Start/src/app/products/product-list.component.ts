@@ -4,6 +4,7 @@ import { Product } from './product';
 import { ProductService } from './product.service';
 import { Alert } from 'selenium-webdriver';
 import {ActivatedRoute} from '@angular/router';
+import { LifecycleHooks } from '@angular/compiler/src/lifecycle_reflector';
 @Component({
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
@@ -14,6 +15,7 @@ export class ProductListComponent implements OnInit {
   imageMargin = 2;
   showImage = false;
   errorMessage = '';
+  pageMessage:string = '';
 
   _listFilter = '';
   get listFilter(): string {
@@ -27,11 +29,18 @@ export class ProductListComponent implements OnInit {
   filteredProducts: Product[] = [];
   products: Product[] = [];
 
-  constructor(private productService: ProductService,
+  constructor(
+    private productService: ProductService,
     private route:ActivatedRoute) { 
   }
 
+
   ngOnInit(): void {
+    // temp data coming from route but it will b static so we can 
+    // easily use snapshot instead of observable also it will remain 
+    // same throught app LifecycleHooks;
+    this.pageMessage = this.route.snapshot.data['dataTitle'];
+
     // read query params values
     this.listFilter = this.route.snapshot.queryParamMap.get('filterBy') || '';
     this.showImage = this.route.snapshot.queryParamMap.get('showImage') === 'true';
