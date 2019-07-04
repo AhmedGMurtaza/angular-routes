@@ -1,0 +1,23 @@
+.header{
+    border-bottom:1px solid #cccccc;
+    display:flex;
+    justify-content: space-between;
+}
+
+.header ul{
+    display:flex;
+}
+.header ul li{
+    list-style:none;
+    padding:10px;   
+}
+
+.header ul li a{
+    font-size:16px;
+    color:#666666;
+    text-decoration: none;
+}
+
+.header ul li a:hover{
+    color:#000000;
+}
