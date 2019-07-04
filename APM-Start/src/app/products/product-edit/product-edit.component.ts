@@ -27,6 +27,7 @@ ngOnInit():void{
   this.route.paramMap.subscribe(
     function(params){
       const id = +params.get('id');
+      alert(params.get('image')) //this is optional paramter passed
       this.getProduct(id);
     }.bind(this)
   )
